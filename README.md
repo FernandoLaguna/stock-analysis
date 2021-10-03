@@ -23,7 +23,7 @@ We were successful in refactoring the code, as you can notice in the table below
 ## Summary
 ### Advantages and disadvantages of refactoring code
 
-As mentiones in Moodule 2 of the course platform "Refactoring is a key part of the coding process. When refactoring code, you aren’t adding new functionality; you just want to make the code more efficient—by taking fewer steps, using less memory, or improving the logic of the code to make it easier for future users to read. Refactoring is common on the job because first attempts at code won’t always be the best way to accomplish a task. Sometimes, refactoring someone else’s code will be your entry point to working with the existing code at a job."[^1]
+As mentiones in Module 2 of the course platform "Refactoring is a key part of the coding process. When refactoring code, you aren’t adding new functionality; you just want to make the code more efficient—by taking fewer steps, using less memory, or improving the logic of the code to make it easier for future users to read. Refactoring is common on the job because first attempts at code won’t always be the best way to accomplish a task. Sometimes, refactoring someone else’s code will be your entry point to working with the existing code at a job."[^1]
 [^1]: Data Science Course Platform.
 
 A disadvantage of refactoring is the time that has to be invested to do it and the posibiliy. A disadvantage of refactoring is the time that has to be invested to do it and the possibility of committing mistakes in a code that was already working. But finally the pros of a smoother code are greater than the cons.
@@ -32,17 +32,38 @@ A disadvantage of refactoring is the time that has to be invested to do it and t
 
 The most important advantage is the processing time. As we mentioned before we reduced it to fifth part of the original time. We accomplished it by simplifying the code. In the original code, we had the process going over al the rows eleven times:
 
-For i = 0 To 11
-   ticker = tickers(i) '¿SE REFIERE DIRECTAMENTE A TICKERS(12)?
+```For i = 0 To 11
+   ticker = tickers(i) 
    totalvolume = 0
-   
-   '5) loop through rows in the data
    
    Worksheets(yearValue).Activate
    
    For j = 2 To RowCount
    
-       '5a) Get total volume for current ticker
        If Cells(j, 1).Value = ticker Then
 
    totalvolume = totalvolume + Cells(j, 8).Value
+   ```
+
+Instead of the previous code we use a code that goes over each row only once, we did it creating a tickerindex
+
+
+  ```tickerindex = 0
+  ticker = tickers(tickerindex)
+
+    Dim tickerVolumes(12) As Long
+    Dim tickerStartingPrices(12) As Single
+    Dim tickerEndingprices(12) As Single
+   
+    For j = 0 To 11
+    
+    tickerVolumes(j) = 0
+   
+   Next j
+        
+        Worksheets(yearValue).Activate
+        For i = 2 To RowCount
+       
+       tickerVolumes(tickerindex) = tickerVolumes(tickerindex) + Cells(i, 8).Value
+```
+I didn´t find any disadvantage of the new code itself. I only could mention that we have to invest more timer recoding and sometimes we can commit mistakes that take longer.
